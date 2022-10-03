@@ -1,0 +1,22 @@
+C:/Percent/IC/Final_project/LZ77_Encoder.v {1 {vlog -work work C:/Percent/IC/Final_project/LZ77_Encoder.v
+Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+-- Compiling module LZ77_Encoder
+
+Top level modules:
+	LZ77_Encoder
+
+} {} {}} C:/Percent/IC/Final_project/tb_Encoder.sv {1 {vlog -work work -sv C:/Percent/IC/Final_project/tb_Encoder.sv
+Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+-- Compiling module testfixture_encoder
+
+Top level modules:
+	testfixture_encoder
+
+} {} {}} C:/Percent/IC/Final_project/LZ77_Decoder.v {1 {vlog -work work C:/Percent/IC/Final_project/LZ77_Decoder.v
+Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+-- Compiling module LZ77_Decoder
+
+Top level modules:
+	LZ77_Decoder
+
+} {} {}}

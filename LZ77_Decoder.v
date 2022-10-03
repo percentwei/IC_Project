@@ -1,0 +1,45 @@
+module LZ77_Decoder(clk,reset,ready,code_pos,code_len,chardata,encode,finish,char_nxt);
+// 30 25
+input 				clk;
+input 				reset;
+input				ready;
+input 		[4:0] 	code_pos;
+input 		[4:0] 	code_len;
+input 		[7:0] 	chardata;
+output  			reg encode;
+output  			reg finish;
+output 	  reg [7:0] 	char_nxt;
+
+reg			[4:0]	output_counter;	
+reg			[3:0]	search_buffer[29:0];
+integer i ;
+
+always @(posedge clk or posedge reset)
+begin
+	if(reset)
+	begin
+		finish <= 0;
+		output_counter <= 0;
+		encode <= 0;
+		char_nxt <= 0;
+		for(i = 0; i < 30; i = i + 1) begin
+		      search_buffer[i] <= 0;
+		end
+	end
+	
+	else if(ready)
+	begin
+		  char_nxt <= (output_counter == code_len) ? chardata : search_buffer[code_pos];
+		
+		  for(i = 0; i < 29; i = i + 1) begin
+		      search_buffer[i + 1] <= search_buffer[i];
+		  end
+
+		  search_buffer[0] <= (output_counter == code_len) ? chardata : search_buffer[code_pos];
+		  output_counter <= (output_counter == code_len) ? 0 : output_counter+1;
+		  finish <= (char_nxt==8'h24) ? 1 : 0;
+	end
+end
+
+
+endmodule

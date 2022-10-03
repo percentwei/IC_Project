@@ -1,0 +1,172 @@
+`timescale 1ns/10ps
+// 128 * 32, 128 * 63
+module ELA(clk, rst, ready, in_data, data_rd, req, wen, addr, data_wr, done);
+
+	input				clk;
+	input				rst;
+	input				ready;
+	input		[7:0]	in_data;
+	input		[7:0]	data_rd;
+	output 				reg req;
+	output 				reg wen;
+	output 		   reg [12:0]	addr;
+	output 		   reg [7:0]	data_wr;
+	output 		   reg done;
+
+
+reg [6:0] x, a; 
+reg [6:0] y, b; 
+reg [7:0] img [0:127][0:62];  // 128 columns, 63 rows
+reg [2:0] state, next_state;
+reg [8:0]D1, D2, D3;
+reg [12:0] interpolation_count;
+
+parameter [2:0] REQUEST = 3'd0, DATAIN = 3'd1, INTERPOLATION = 3'd2;
+parameter [2:0] READ_FINISH = 3'd3, INTERPOLATION_FINISH = 3'd4;
+
+
+always@(posedge clk) begin
+  
+  if (rst) begin
+    req <= 0;
+    done <= 0;
+    x <= 7'd0;
+    a <= 7'd0;
+    y <= 7'd0;
+    b <= 7'd0;
+    interpolation_count <= 13'd0;
+    data_wr <= 8'd0;
+    state <= REQUEST;
+  end
+  
+  else if (ready)begin
+      case(state)
+        REQUEST: begin
+          req <= 1;
+        end 
+        
+        DATAIN: begin
+          req <= 0;
+          img[x][y] <= in_data; // y: row  x: column
+          
+          if ((x == 7'd0) && (y == 7'd64)) begin
+               wen <= 0; 
+          end
+          else begin
+               wen <= 1;
+          end
+          
+          addr <= (128 * y + x);
+          data_wr <= in_data; 
+          
+          x <= x + 7'd1;
+          
+          if(x == 7'd127) begin
+              y <= y + 7'd2;
+          end
+        end
+        
+        INTERPOLATION: begin // a: column b: row
+          interpolation_count <= interpolation_count + 13'd1;
+          wen <= 1;
+          addr <= (128 * b + a);
+  
+          if ((a > 0) && (a < 127)) begin // priority: D2 > D1 > D3
+            if  ((D2 <= D1) && (D2 <= D3)) begin
+                 data_wr <= (img[a][b - 1] + img[a][b + 1]) / 2;
+            end
+            
+            else if ((D1 <= D2) && (D1 <= D3)) begin
+                 data_wr <= (img[a - 1][b - 1] + img[a + 1][b + 1]) / 2;
+            end
+            
+            else begin //(D3<=D1 && D3<=D2)
+                 data_wr <= (img[a + 1][b - 1] + img[a - 1][b + 1]) / 2;
+            end
+            a <= a + 7'd1;
+          end
+  
+          else if ((a == 7'd0) && (b == 7'd63)) begin
+            wen <= 0;
+          end
+  
+          else if (a == 7'd0) begin
+            data_wr <= (img[a][b - 1]+ img[a][b + 1])/2;
+            a <= a + 7'd1;
+          end
+    
+          else begin
+            data_wr <= (img[a][b - 1] + img[a][b + 1])/2;
+            a <= 7'd0;
+            b <= b + 7'd2;
+          end
+        end
+        
+        READ_FINISH: begin
+          a <= 7'd0;
+          b <= 7'd1;
+          wen <= 0;
+          addr <= (128 * b + a);
+        end
+        INTERPOLATION_FINISH: begin
+          done <= 1;
+        end
+      endcase
+      
+      state <= next_state;       
+  end
+end   
+
+
+always@(*)begin
+   case(state)
+     REQUEST: begin
+        if(x == 7'd127) begin
+            next_state<=REQUEST;
+       end
+       
+       else begin
+           next_state<=DATAIN;
+       end
+     end
+     
+     DATAIN: begin
+       if(x == 7'd127) begin 
+            next_state <= REQUEST;  
+       end 
+       
+       else if(y >= 7'd63) begin 
+            next_state <= READ_FINISH; 
+       end
+       
+       else begin
+            next_state <= DATAIN;
+       end
+     end
+     
+     READ_FINISH: begin
+       next_state <= INTERPOLATION;
+     end
+     
+     INTERPOLATION: begin
+       if ((a == 7'd0) && (b == 7'd63)) begin
+          next_state <= INTERPOLATION_FINISH;
+      end
+      else begin
+          next_state <= INTERPOLATION;
+      end  
+    end
+    endcase
+end
+
+always@(interpolation_count) begin // a: column b: row
+  if (state == INTERPOLATION) begin
+     if ((a > 0) && (a < 127)) begin
+         D1 = ((img[a - 1][b - 1] > img[a + 1][b + 1]))? (img[a - 1][b - 1] - img[a + 1][b + 1]) : (img[a + 1][b + 1] - img[a - 1][b - 1]);
+         D2 = ((img[a][b - 1] > img[a][b + 1]))? (img[a][b - 1] - img[a][b + 1]):(img[a][b + 1]-img[a][b - 1]);
+         D3 = ((img[a + 1][b - 1] > img[a - 1][b + 1]))? (img[a + 1][b - 1] - img[a - 1][b + 1]) : (img[a - 1][b + 1] - img[a + 1][b - 1]);
+     end
+  end  
+end
+
+endmodule

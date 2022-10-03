@@ -1,0 +1,109 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\altera\13.0sp1\modelsim_ase\win32aloem
+vELA
+Z1 !s100 DOH`n9aPl5936GiZWZ?a11
+Z2 I`YJBIJ3g7dEIjGc0MEak^1
+Z3 VXoTQR3cQ43=^MOPkJm[?13
+Z4 dC:\Percent\IC\Final_project
+Z5 w1655530497
+Z6 8C:/Percent/IC/Final_project/ELA.v
+Z7 FC:/Percent/IC/Final_project/ELA.v
+L0 3
+Z8 OV;L;10.1d;51
+r1
+31
+Z9 !s90 -reportprogress|300|-work|work|C:/Percent/IC/Final_project/ELA.v|
+Z10 o-work work -O0
+Z11 n@e@l@a
+Z12 !s108 1655530778.267000
+Z13 !s107 C:/Percent/IC/Final_project/ELA.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vLZ77_Decoder
+Z14 !s100 LF^;0]@X1k<4MYOXc@l7l1
+Z15 I`>Hbafioh=DkMzc4D8bhC3
+Z16 V@J<>D^E_Nj6ok9TI;FR@K0
+R4
+Z17 w1655450262
+Z18 8C:/Percent/IC/Final_project/LZ77_Decoder.v
+Z19 FC:/Percent/IC/Final_project/LZ77_Decoder.v
+L0 1
+R8
+r1
+31
+Z20 !s90 -reportprogress|300|-work|work|C:/Percent/IC/Final_project/LZ77_Decoder.v|
+R10
+Z21 n@l@z77_@decoder
+Z22 !s108 1655530778.328000
+Z23 !s107 C:/Percent/IC/Final_project/LZ77_Decoder.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vLZ77_Encoder
+Z24 !s100 G=3z]8MERjden?cBQ2hoR0
+Z25 IZJ@2<M:=478:J6WQ:2ncm0
+Z26 V]K^;k=URmHSU<gJ_jiE>;0
+R4
+Z27 w1654256539
+Z28 8C:/Percent/IC/Final_project/LZ77_Encoder.v
+Z29 FC:/Percent/IC/Final_project/LZ77_Encoder.v
+L0 1
+R8
+r1
+31
+Z30 !s90 -reportprogress|300|-work|work|C:/Percent/IC/Final_project/LZ77_Encoder.v|
+R10
+Z31 n@l@z77_@encoder
+Z32 !s108 1655530778.434000
+Z33 !s107 C:/Percent/IC/Final_project/LZ77_Encoder.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vtestfixture_decoder
+Z34 DXx6 sv_std 3 std 0 22 F[19LRNL:5;XmIFh[XOPn1
+Z35 !s100 OmJJ<bWnCczPfa3;5FoSd2
+Z36 I5<S<C32]b9FfV<43h1c333
+Z37 VNXBI4ki5l97R@nV:mVB461
+Z38 !s105 tb_Decoder_sv_unit
+S1
+R4
+Z39 w1655530776
+Z40 8C:/Percent/IC/Final_project/tb_Decoder.sv
+Z41 FC:/Percent/IC/Final_project/tb_Decoder.sv
+L0 9
+R8
+r1
+31
+Z42 !s90 -reportprogress|300|-work|work|-sv|C:/Percent/IC/Final_project/tb_Decoder.sv|
+Z43 o-work work -sv -O0
+!i10b 1
+!s85 0
+Z44 !s108 1655530778.530000
+Z45 !s107 C:/Percent/IC/Final_project/tb_Decoder.sv|
+!s101 -O0
+vtestfixture_encoder
+R34
+!i10b 1
+Z46 !s100 iVG37DeFTTgUni;]USZFM1
+Z47 IAYn[k<<:UXBERC3on]1Le2
+Z48 V=dz;:zCVO?^^hLmNTz5VD1
+Z49 !s105 tb_Encoder_sv_unit
+S1
+R4
+Z50 w1654308962
+Z51 8C:/Percent/IC/Final_project/tb_Encoder.sv
+Z52 FC:/Percent/IC/Final_project/tb_Encoder.sv
+L0 12
+R8
+r1
+!s85 0
+31
+!s108 1655530778.649000
+!s107 C:/Percent/IC/Final_project/tb_Encoder.sv|
+Z53 !s90 -reportprogress|300|-work|work|-sv|C:/Percent/IC/Final_project/tb_Encoder.sv|
+!s101 -O0
+R43
